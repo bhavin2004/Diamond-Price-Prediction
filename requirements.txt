@@ -5,5 +5,3 @@ flask
 streamlit
 ipykernel
 scikit-learm
-
-# -e .
