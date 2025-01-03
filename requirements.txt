@@ -3,6 +3,7 @@ numpy
 seaborn
 flask
 streamlit
-
+ipykernel
+scikit-learm
 
 # -e .
