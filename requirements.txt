@@ -4,4 +4,6 @@ seaborn
 flask
 streamlit
 ipykernel
-scikit-learm
+scikit-learn
+
+-e .
