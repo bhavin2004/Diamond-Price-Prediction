@@ -16,7 +16,7 @@ clarity=st.selectbox("CLARITY",['I1', 'SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1'
 
     
 if st.button("PREDICT"):
-    st.write("HI")
+    # st.write("HI")
     try:
         obj=prediction_pipeline.InputConverter(carat,depth,table,cut,color,clarity)
         predict_obj=prediction_pipeline.PridictionPipeline()
