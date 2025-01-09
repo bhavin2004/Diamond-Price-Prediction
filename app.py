@@ -14,11 +14,6 @@ cut=st.selectbox("CUT",['Fair', 'Good', 'Very Good', 'Premium', 'Ideal'])
 color=st.selectbox("COLOR",['D', 'E', 'F', 'G', 'H', 'I', 'J'])
 clarity=st.selectbox("CLARITY",['I1', 'SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1', 'IF'])
 
-if st.button("Train"):
-    trainer_obj=training_pipeline.Training_Pipeline()
-    trainer_obj.run_pipeline()
-    st.write("Model is Trained")
-
     
 if st.button("PREDICT"):
     st.write("HI")
