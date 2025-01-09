@@ -28,8 +28,8 @@ class ModelTrainer:
             'Ridge':Ridge(),
             'Lasso':Lasso(),
             'ElasticNet':ElasticNet(),
-            # 'DecisionTreeRegressor':DecisionTreeRegressor(),
-            # 'RandomForestRegressor':RandomForestRegressor(),
+            'DecisionTreeRegressor':DecisionTreeRegressor(),
+            'RandomForestRegressor':RandomForestRegressor(n_estimators=25,criterion="squared_error",max_depth=4,min_samples_split=2),
             # 'SVR':SVR()
             }
             logging.info("Starting the model evaluation")           

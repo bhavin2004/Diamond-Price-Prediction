@@ -8,6 +8,7 @@ from sklearn.metrics import mean_squared_error,mean_absolute_error,r2_score
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVR
+from time import time
 
 def save_pkl(obj,obj_path):
     try:
@@ -25,7 +26,9 @@ def evaluated_model(models:dict,x_train,x_test,y_train,y_test):
     try:
         model_score=dict()
         for model_name,model in models.items():
+            now=time()
             model.fit(x_train,y_train)
+            logging.info("Time Taken by model {} to fit the data: {}".format(model_name,time()-now))
             y_pred=model.predict(x_test)
             score=calculate_model_score(y_test,y_pred)
             model_score[model_name]=score

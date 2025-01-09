@@ -6,4 +6,8 @@ streamlit
 ipykernel
 scikit-learn
 
+<<<<<<< HEAD
 -e .
+=======
+-e .
+>>>>>>> 413b544 (updating model files)
