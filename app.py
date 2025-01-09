@@ -3,7 +3,7 @@ from src.logger import logging
 from src.pipelines import prediction_pipeline
 import streamlit as st
 import sys
-from src.pipelines.training_pipeline import Training_Pipeline
+from src.pipelines import training_pipeline
 
 st.title("Diamond Price Prediction System")
 
@@ -14,6 +14,12 @@ cut=st.selectbox("CUT",['Fair', 'Good', 'Very Good', 'Premium', 'Ideal'])
 color=st.selectbox("COLOR",['D', 'E', 'F', 'G', 'H', 'I', 'J'])
 clarity=st.selectbox("CLARITY",['I1', 'SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1', 'IF'])
 
+if st.button("Train"):
+    trainer_obj=training_pipeline.Training_Pipeline()
+    trainer_obj.run_pipeline()
+    st.write("Model is Trained")
+
+    
 if st.button("PREDICT"):
     st.write("HI")
     try:
@@ -25,7 +31,3 @@ if st.button("PREDICT"):
         logging.error(f"An error occurred: {str(e)}")
         raise CustomException(e,sys)
     
-if st.button("Train"):
-    trainer_obj=Training_Pipeline()
-    trainer_obj.run_pipeline()
-    st.write("Model is Trained")
