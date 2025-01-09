@@ -21,7 +21,7 @@ if st.button("PREDICT"):
         obj=prediction_pipeline.InputConverter(carat,depth,table,cut,color,clarity)
         predict_obj=prediction_pipeline.PridictionPipeline()
         res = predict_obj.predict(obj.convert_to_Datafram())
-        st.write(f"The price of the Gemstone/Diamond is {res}$")
+        st.write(f"The price of the Gemstone/Diamond is {str(res)}$")
     except Exception as e:
         logging.error(f"An error occurred: {str(e)}")
         raise CustomException(e,sys)
