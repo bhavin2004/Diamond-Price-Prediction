@@ -3,7 +3,7 @@ from src.logger import logging
 from src.pipelines import prediction_pipeline
 import streamlit as st
 import sys
-
+from src.pipelines.training_pipeline import Training_Pipeline
 
 st.title("Diamond Price Prediction System")
 
@@ -24,3 +24,8 @@ if st.button("PREDICT"):
     except Exception as e:
         logging.error(f"An error occurred: {str(e)}")
         raise CustomException(e,sys)
+    
+if st.button("Train"):
+    trainer_obj=Training_Pipeline()
+    trainer_obj.run_pipeline()
+    st.write("Model is Trained")
