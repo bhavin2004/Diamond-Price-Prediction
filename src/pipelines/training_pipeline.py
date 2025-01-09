@@ -20,8 +20,8 @@ class Training_Pipeline():
       
    def run_pipeline(self):
       train_path,test_path=self.data_ingestion.initiate_data_ingestion()
-      train_data,tets_data=self.data_transform.initiate_data_transformation(train_path,test_path)
-      self.model_trainer.initiate_model_trainer(train_data,tets_data)
+      x_train,y_train,x_test,y_test,preprocessor=self.data_transform.initiate_data_transformation(train_path,test_path)
+      self.model_trainer.initiate_model_trainer(x_train,y_train,x_test,y_test)
       
       
    
