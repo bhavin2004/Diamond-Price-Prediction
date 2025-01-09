@@ -5,7 +5,7 @@ import streamlit as st
 import sys
 
 
-st.title("Diamond Price Prediction")
+st.title("Diamond Price Prediction System")
 
 carat=float(st.text_input("CARAT",0))
 depth=float(st.text_input("DEPTH",0))
