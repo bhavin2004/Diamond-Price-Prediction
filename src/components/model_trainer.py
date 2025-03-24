@@ -48,8 +48,7 @@ class ModelTrainer:
             logging.info("Saving the best model")
             save_pkl(obj=best_model_trained,obj_path=self.config.model_file_path)
             logging.info("Model Pickle file is saved")
-            print(x_test[:1])
-            print(best_model_trained.predict(x_test[:1]))
+        
         except Exception as e:
             logging.error("Error occured during model training: {}".format(e))
             raise CustomException(e,sys)    

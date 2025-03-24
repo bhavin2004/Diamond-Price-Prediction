@@ -18,6 +18,9 @@ from src.utils import *
 @dataclass
 class DataTransformationConfig:
     preprocessor_pkl_path=os.path.join('artifacts','preprocessor.pkl')
+    processed_train_file_path: str = os.path.join('artifacts','processed_train_data.csv')
+    processed_test_file_path: str = os.path.join('artifacts','processed_test_data.csv')
+    
     
     
 ## Class for Data Transformation
@@ -111,6 +114,12 @@ class DataTransformation:
             save_pkl(obj=preprocessor,obj_path=self.config.preprocessor_pkl_path)
             
             logging.info("Preprocessor object is saved")
+            train_df=x_train.copy()
+            train_df[traget_col]=y_train
+            train_df.to_csv(self.config.processed_train_file_path,index=False)
+            test_df=x_test.copy()
+            test_df[traget_col]=y_test
+            test_df.to_csv(self.config.processed_test_file_path,index=False)
             
             return (
                  x_train,
