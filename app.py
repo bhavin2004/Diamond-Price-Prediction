@@ -1,29 +1,30 @@
 from src.exception import CustomException
 from src.logger import logging
-from src.pipelines import prediction_pipeline
+from src.pipelines.prediction_pipeline import PridictionPipeline,InputConverter
 import streamlit as st
 import sys
+import os
 from src.pipelines import training_pipeline
 import pandas as pd
 from sklearn.decomposition import PCA
 from streamlit_option_menu import option_menu
 import plotly.express as px
 
-st.set_page_config("Diamond Price Prediction",page_icon='💎')
+st.set_page_config("Diamond Price Prediction",page_icon='💎',layout="wide")
 # menu = option_menu()
 
 with st.sidebar:
     selection = option_menu(
     menu_title="Menu",           # Title of the menu
-    options=['Home', 'Visualization of Data'],   # Menu options
-    icons=['house', 'bar-chart'], # Optional icons (from FontAwesome)
+    options=['Home', 'Visualization of Data',"Predict with CSV","About Project"],   # Menu options
+    icons=['house', 'bar-chart','filetype-csv'], # Optional icons (from FontAwesome)
     menu_icon="list",            # Main menu icon
-    default_index=1,             # Default selected item
+    default_index=2,             # Default selected item
     orientation="vertical",    # Options: "horizontal" or "vertical"
     )
+df=pd.read_csv('artifacts/test_data.csv')
 if selection=='Home':
     st.title("Diamond Price Prediction System")
-    df=pd.read_csv('artifacts/test_data.csv')
     df=df.sample(6)
 
 
@@ -71,8 +72,8 @@ if selection=='Home':
     if st.button("PREDICT",use_container_width=True):
         # st.write("HI")
         try:
-            obj=prediction_pipeline.InputConverter(carat,depth,table,cut,color,clarity)
-            predict_obj=prediction_pipeline.PridictionPipeline()
+            obj=InputConverter(carat,depth,table,cut,color,clarity)
+            predict_obj=PridictionPipeline()
             res = predict_obj.predict(obj.convert_to_Datafram())[0]
             # st.write(type(res))
             # st.write(f"The price of the Gemstone/Diamond is {res}$")
@@ -82,11 +83,80 @@ if selection=='Home':
             raise CustomException(e,sys)
         
         
-if selection=="Visualization of Data":
-    train_df= pd.read_csv("artifacts/processed_train_data.csv")
-    test_df= pd.read_csv("artifacts/processed_test_data.csv")
-    st.dataframe(test_df.head(5))
-    pca = PCA(n_components=2)
-    df1=pca.fit_transform(train_df[:-1])
-    st.write(px.line(df1))
-   
+# """if selection=="Visualization of Data":
+#     train_df= pd.read_csv("artifacts/processed_train_data.csv")
+#     test_df= pd.read_csv("artifacts/processed_test_data.csv")
+#     st.dataframe(test_df.head(5))
+#     pca = PCA(n_components=2)
+#     df1=pca.fit_transform(train_df[:-1])
+#     st.write(px.line(df1))
+#    """
+
+if selection=="Predict with CSV":
+
+    st.title("Predict the Diamond Price of a CSV file")
+    st.divider()
+    st.warning(f"Your CSV should have these columns "+", ".join(list(df.columns)))
+    with st.expander("For Example"):
+        st.dataframe(df.iloc[:5,:-1])
+    st.divider()
+  
+    sample_csv=pd.read_csv('artifacts/test_data.csv')
+    sample_csv.drop("price",axis=1,inplace=True)
+    st.download_button(label="Download Sample CSV",file_name='sample.csv',data=sample_csv.to_csv(index=False),mime="text/csv",icon='⬇️')
+    
+    uploaded_csv=st.file_uploader(label="Upload Your Csv",type="csv",)
+    if uploaded_csv:
+        upload_df=pd.read_csv(uploaded_csv)
+        with st.expander("Your Data in CSV".upper()):
+            st.write(upload_df.iloc[:,:-1])
+
+        if st.button("Predict",type='primary',icon='🕵'):
+            predict_obj = PridictionPipeline()
+            output=predict_obj.predict(upload_df.iloc[:,:-1])
+            upload_df['price'] =output
+            with st.expander("Your Result",icon='📃'):
+                st.dataframe(upload_df)
+            csv_file=upload_df.to_csv(index=False)
+            st.download_button(label="Download Result",file_name='predicted.csv',data=csv_file,mime="text/csv",icon='⬇️')
+        
+        
+if selection == "About Project":
+    st.title("💎 About the Diamond Price Prediction System")
+    st.divider()
+
+    st.markdown("""
+    ### 🔍 **Project Overview**
+    This system predicts the price of a diamond based on various attributes such as:
+    - **Carat**: Weight of the diamond.
+    - **Cut**: Quality of the cut (Fair, Good, Very Good, Premium, Ideal).
+    - **Color**: Diamond color grading (D - best to J - worst).
+    - **Clarity**: Measure of the diamond's internal imperfections.
+    - **Depth**: Height of the diamond relative to its width.
+    - **Table**: Width of the diamond’s top relative to the widest point.
+
+    ### ⚙️ **How It Works**
+    - Users can enter individual diamond attributes manually.
+    - Upload a CSV file to predict diamond prices for multiple records.
+    - PCA is used to visualize the high-dimensional data.
+
+    ### 📊 **Features**
+    - Home: Predict diamond price for individual entries.
+    - Visualization of Data: PCA visualization of training and test data.
+    - Predict with CSV: Predict diamond prices for a batch of records.
+    - Downloadable CSV results.
+
+    ### 📧 **Contact**
+    If you encounter any issues or have suggestions, feel free to reach out.
+    """)
+
+    st.divider()
+
+    # Add developer info or GitHub link
+    st.markdown("""
+    ### 👨‍💻 **Developed by Bhavin Karangia**
+    - 📧 [Email Me](mailto:bhavinkarangia@example.com)
+    - 🌐 [GitHub](https://github.com/bhavin2004/Diamond-Price-Prediction)
+    """)
+
+    st.success("Thank you for using this system! 💎")
