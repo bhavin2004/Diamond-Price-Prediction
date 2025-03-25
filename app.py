@@ -19,7 +19,7 @@ with st.sidebar:
     options=['Home', 'Visualization of Data',"Predict with CSV","About Project"],   # Menu options
     icons=['house', 'bar-chart','filetype-csv'], # Optional icons (from FontAwesome)
     menu_icon="list",            # Main menu icon
-    default_index=2,             # Default selected item
+    default_index=0,             # Default selected item
     orientation="vertical",    # Options: "horizontal" or "vertical"
     )
 df=pd.read_csv('artifacts/test_data.csv')
