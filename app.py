@@ -17,7 +17,7 @@ with st.sidebar:
     selection = option_menu(
     menu_title="Menu",           # Title of the menu
     options=['Home', 'Visualization of Data',"Predict with CSV","About Project"],   # Menu options
-    icons=['house', 'bar-chart','filetype-csv'], # Optional icons (from FontAwesome)
+    icons=['house', 'bar-chart','filetype-csv','file-earmark-person-fill'], # Optional icons (from FontAwesome)
     menu_icon="list",            # Main menu icon
     default_index=0,             # Default selected item
     orientation="vertical",    # Options: "horizontal" or "vertical"
