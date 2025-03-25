@@ -8,7 +8,7 @@ from src.pipelines import training_pipeline
 import pandas as pd
 from sklearn.decomposition import PCA
 from streamlit_option_menu import option_menu
-import plotly.express as px
+
 
 st.set_page_config("Diamond Price Prediction",page_icon='💎',layout="wide")
 # menu = option_menu()
